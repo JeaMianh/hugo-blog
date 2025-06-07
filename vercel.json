@@ -1,0 +1,8 @@
+{
+  "build": {
+    "env": {
+      "HUGO_VERSION": "0.147.6",
+      "GO_VERSION": "1.20"
+    }
+  }
+} 
