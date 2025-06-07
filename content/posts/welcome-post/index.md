@@ -1,7 +1,7 @@
 ---
 title: "Hello World，我的博客之旅开始了"
-date: 2025-6-7T10:00:00+08:00
-draft: true
+date: 2025-06-07T10:00:00+08:00
+draft: false
 author: "GoldExperience"
 description: "终于搭建好了自己的博客，记录一下这个特殊的时刻"
 tags: ["随笔", "开始", "博客"]

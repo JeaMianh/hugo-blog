@@ -1,6 +1,6 @@
 ---
 title: "从零搭建个人博客：Hugo + GitHub + Vercel 的踩坑之旅"
-date: 2025-6-7T14::00+08:00
+date: 2025-06-07T14:00:00+08:00
 draft: false
 author: "GoldExperience"
 description: "记录一下搭建这个博客的完整过程，包括技术选型、部署流程和各种踩坑经历"
