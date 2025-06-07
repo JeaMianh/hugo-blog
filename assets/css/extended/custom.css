@@ -1,0 +1,58 @@
+/* 自定义字体样式 - 使用衬线体 */
+
+/* 全局字体设置 */
+body {
+    font-family: "SimSun", "宋体", "Times New Roman", "serif", serif !important;
+}
+
+/* 标题字体 */
+h1, h2, h3, h4, h5, h6 {
+    font-family: "SimSun", "宋体", "Times New Roman", "serif", serif !important;
+}
+
+/* 文章内容字体 */
+.post-content, .post-content p, .post-content div, .post-content span, .post-content li, .post-content blockquote {
+    font-family: "SimSun", "宋体", "Times New Roman", "serif", serif !important;
+}
+
+/* 确保所有正文文本使用宋体 */
+.main, .content, article, .post-single, .post-entry {
+    font-family: "SimSun", "宋体", "Times New Roman", "serif", serif !important;
+}
+
+/* 导航菜单字体 */
+.nav {
+    font-family: "SimSun", "宋体", "Times New Roman", "serif", serif !important;
+}
+
+/* 侧边栏字体 */
+.sidebar {
+    font-family: "SimSun", "宋体", "Times New Roman", "serif", serif !important;
+}
+
+/* 代码块保持等宽字体 */
+code, pre {
+    font-family: "Consolas", "Monaco", "Courier New", monospace !important;
+}
+
+/* 优化中文字体渲染 */
+body {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* 调整行高以适应中文衬线字体 */
+body {
+    line-height: 1.8;
+}
+
+.post-content {
+    line-height: 1.9;
+}
+
+/* 标题行高调整 */
+h1 { line-height: 1.4; }
+h2 { line-height: 1.5; }
+h3 { line-height: 1.6; }
+h4, h5, h6 { line-height: 1.7; }
