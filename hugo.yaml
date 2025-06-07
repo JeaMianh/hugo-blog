@@ -1,12 +1,29 @@
-baseURL: "https://gldexp.cn"
+baseURL: "https://goldexperience.github.io/"  # 替换为你的实际域名
 languageCode: "zh-cn"
 theme: "PaperMod"
 
+# 输出格式配置（搜索功能需要）
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON  # 搜索功能需要JSON输出
+
+# 基础配置
 pagination:
-  pagerSize: 3  # 每页显示的内容数量，通常用于分页设置。
+  pagerSize: 5  # 每页显示文章数
+enableRobotsTXT: true  # 启用搜索引擎爬虫
+buildDrafts: false     # 不构建草稿
+buildFuture: false     # 不构建未来日期的文章
+buildExpired: false    # 不构建过期文章
+
+# 性能优化
+minify:
+  disableXML: true
+  minifyOutput: true   # 压缩输出文件
 
 title: "GoldExperience"  # 网站的标题，会显示在浏览器标签上。
-copyright: "GoldExperience"  # 网站的版权信息，通常显示在页面底部。
+copyright: "© 2024 GoldExperience. All rights reserved."  # 网站的版权信息，通常显示在页面底部。
 
 # Theme i18n support
 # Available values: ar, bn, ca, de, el, en, es, fr, hu, id, it, ja, ko, nl, pt-br, th, uk, zh-cn, zh-hk, zh-tw
@@ -17,27 +34,12 @@ DefaultContentLanguage: "zh-cn"  # 设置网站的默认内容语言。可选值
 hasCJKLanguage: true  # 如果默认语言是中文、日文或韩文，设置为 true 以确保摘要和字数统计正确。
 
 languages:
-  en:
-    languageName: "English"  # 英语语言配置
-    title: "GoldExperience"  # 英文站点标题
-    weight: 2  # 语言权重，数值越小排序越靠前
-    params:
-      description: "Example description"  # 英文站点描述
-
   zh-cn:
     languageName: "中文"  # 中文语言配置
     title: "GoldExperience"  # 中文站点标题
     weight: 1  # 中文站点语言权重
     params:
       description: "演示说明"  # 中文站点描述
-
-  ar:
-    languageName: "عربي"  # 阿拉伯语配置
-    languagedirection: "rtl"  # 文字方向，从右到左
-    title: "موقع تجريبي"  # 阿拉伯语站点标题
-    weight: 3  # 阿拉伯语站点语言权重
-    params:
-      description: "وصف تجريبي"  # 阿拉伯语站点描述
 
 services:
   disqus:
@@ -53,32 +55,94 @@ permalinks:
   page: "/:slug/"  # 页面内容的永久链接格式。
 
 params:
-  mainSections: ["post"]  # 主内容区域，显示文章内容。
+  env: production  # 启用 Google Analytics, OpenGraph, Twitter Cards
+  title: "GoldExperience"
+  description: "分享技术文章和生活感悟的个人博客"
+  keywords: ["博客", "技术", "编程", "生活"]
+  author: "GoldExperience"
+  
+  mainSections: ["post", "posts"]  # 主内容区域，显示文章内容。
   featuredImageField: "image"  # 特色图片字段的名称。
   rssFullContent: true  # RSS 提要是否包含全文内容。
-  favicon: ""  # 网站的favicon路径，例如`/favicon.ico`。
-  ShowReadingTime: true  # 是否显示预计阅读时间。
-  ShowWordCount: false  # 是否显示字数统计。
-  dateFormat: "Jan 02, 2006"  # 日期格式
+  
+  # 显示功能配置
+  ShowReadingTime: true        # 显示阅读时间
+  ShowShareButtons: true       # 显示分享按钮
+  ShowPostNavLinks: true       # 显示上一篇/下一篇导航
+  ShowBreadCrumbs: true        # 显示面包屑导航
+  ShowCodeCopyButtons: true    # 显示代码复制按钮
+  ShowWordCount: true          # 显示字数统计
+  ShowRssButtonInSectionTermList: true  # 在分类/标签页显示RSS按钮
+  UseHugoToc: true            # 使用Hugo内置目录
+  disableSpecial1stPost: false # 不禁用第一篇文章的特殊样式
+  disableScrollToTop: false   # 不禁用回到顶部按钮
+  hidemeta: false             # 不隐藏文章元信息
+  hideSummary: false          # 不隐藏文章摘要
+  showtoc: true               # 显示目录
+  tocopen: false              # 目录默认折叠
+  
+  # 主题配置
+  defaultTheme: auto          # 自动切换深色/浅色模式
+  disableThemeToggle: false   # 显示主题切换按钮
+  DateFormat: "2006年1月2日"   # 中文日期格式
+  
+  # 网站图标
+  assets:
+    favicon: "/favicon.ico"
+    favicon16x16: "/favicon-16x16.png"
+    favicon32x32: "/favicon-32x32.png"
+    apple_touch_icon: "/apple-touch-icon.png"
+    safari_pinned_tab: "/safari-pinned-tab.svg"
+  
+  # 首页信息模式
+  homeInfoParams:
+    Title: "欢迎来到 GoldExperience 👋"
+    Content: "这里分享技术文章、编程心得和生活感悟"
+  
+  # 社交图标
+  socialIcons:
+    - name: github
+      url: "https://github.com/"  # 替换为你的GitHub
+    - name: rss
+      url: "/index.xml"
+    - name: email
+      url: "mailto:your-email@example.com"  # 替换为你的邮箱
 
   footer:
     since: 2020  # 网站创建年份，通常显示在页脚。
     customText: ""  # 自定义页脚文本。
 
   sidebar:
-    emoji: "🍥"  # 侧边栏标题旁显示的 emoji。
-    subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."  # 侧边栏的副标题。
+    emoji: "🌟"  # 侧边栏标题旁显示的 emoji。
+    subtitle: "分享技术与生活的点点滴滴"  # 侧边栏的副标题。
     avatar:
       enabled: true  # 是否启用头像显示。
       local: true  # 是否使用本地头像。
       src: "img/avatar.png"  # 头像图片路径。
 
   article:
-    math: false  # 是否支持数学公式渲染。
-    toc: true  # 是否显示文章目录。
+    math: true   # 启用数学公式渲染
+    toc: true    # 显示文章目录
     license:
-      enabled: true  # 是否启用文章版权信息。
-      default: "Licensed under CC BY-NC-SA 4.0"  # 默认版权协议。
+      enabled: true  # 启用文章版权信息
+      default: "本文采用 CC BY-NC-SA 4.0 许可协议"  # 中文版权协议
+  
+  # 文章编辑链接
+  # editPost:
+  #   URL: "https://github.com/你的用户名/你的仓库/tree/main/content"  # 替换为你的仓库
+  #   Text: "编辑此页"
+  #   appendFilePath: true
+  
+  # 搜索功能配置
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    limit: 10
+    keys: ["title", "permalink", "summary", "content"]
 
   comments:
     enabled: true  # 是否启用评论功能。
@@ -202,18 +266,35 @@ params:
 ### See https://stack.jimmycai.com/config/menu
 ### To remove about, archive and search page menu item, remove `menu` field from their FrontMatter
 menu:
-  main: []  # 自定义主菜单的配置，可以在这里添加导航链接。
-  social:
-    - identifier: "GitHub"  # 社交链接的标识符，通常用于指定图标。
-      name: "GitHub"  # 链接的显示名称。
-      url: "https://GitHub.com/CaiJimmy/hugo-theme-stack"  # GitHub 个人主页的链接。
-      params:
-        icon: "brand-GitHub"  # 使用的社交图标，这里是 GitHub 图标。
-    - identifier: "twitter"  # 另一个社交链接配置，这里是 Twitter。
-      name: "Twitter"  # Twitter 链接的显示名称。
-      url: "https://twitter.com"  # Twitter 的链接。
-      params:
-        icon: "brand-twitter"  # 使用的社交图标，这里是 Twitter 图标。
+  main:
+    - identifier: home
+      name: "首页"
+      url: /
+      weight: 10
+    - identifier: posts
+      name: "文章"
+      url: /posts/
+      weight: 20
+    - identifier: categories
+      name: "分类"
+      url: /categories/
+      weight: 30
+    - identifier: tags
+      name: "标签"
+      url: /tags/
+      weight: 40
+    - identifier: archives
+      name: "归档"
+      url: /archives/
+      weight: 50
+    - identifier: about
+      name: "关于"
+      url: /about/
+      weight: 60
+    - identifier: search
+      name: "搜索"
+      url: /search/
+      weight: 70
 
 related:
   includeNewer: true  # 是否在相关文章中包含较新的文章。
