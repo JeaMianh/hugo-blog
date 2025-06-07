@@ -137,15 +137,7 @@ expected comma character or an array or object ending
 
 ### 坑二：vercel.json 配置错误
 
-为了配置一些自定义的重定向和头部信息，我添加了 `vercel.json` 文件。结果正则表达式的转义搞错了：
-
-```json
-// 错误的写法
-"source": "/(.*\\.(html|xml|json))"
-
-// 正确的写法
-"source": "/(.*\\\\.(html|xml|json))"
-```
+为了配置一些自定义的重定向和头部信息，我添加了 `vercel.json` 文件。结果配置格式搞错了，总是报语法错误。
 
 最后干脆删掉了这个文件，让 Vercel 使用默认配置。
 
