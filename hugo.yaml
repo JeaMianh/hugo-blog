@@ -6,7 +6,6 @@ theme: "PaperMod"
 outputs:
   home:
     - HTML
-    - RSS
     - JSON  # 搜索功能需要JSON输出
 
 # 基础配置
