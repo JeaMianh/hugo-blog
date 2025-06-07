@@ -1,9 +1,6 @@
-module:
-  imports:
-    - path: github.com/adityatelange/hugo-PaperMod
-
 baseURL: "/"  # 使用相对路径，适配多平台部署
 languageCode: "zh-cn"
+theme: "PaperMod"
 
 # 输出格式配置（搜索功能需要）
 outputs:
