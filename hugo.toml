@@ -1,6 +1,6 @@
-baseurl = "https://gldexp.cn"  # 网站的基本 URL 。替换为你自己的网站域名。
-languageCode = "zh-cn"  # 网站的默认语言代码，zh-cn 指中文简体。
-theme = "paper"  # 使用的 Hugo 主题，这里是 Stack 主题。
+baseURL = "https://gldexp.cn"  # 网站的基本 URL 。替换为你自己的网站域名。
+languageCode = "en"  # 网站的默认语言代码
+theme = "paper"  # 使用的 Hugo 主题，Paper 主题。 
 [pagination]
 pagerSize = 3  # 每页显示的内容数量，通常用于分页设置。
 title = "GoldExperience"  # 网站的标题，会显示在浏览器标签上。
