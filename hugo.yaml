@@ -1,4 +1,4 @@
-baseURL: "https://goldexperience.github.io/"  # 替换为你的实际域名
+baseURL: "https://gldexp.cn"  # 替换为你的实际域名
 languageCode: "zh-cn"
 theme: "PaperMod"
 
