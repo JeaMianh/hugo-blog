@@ -56,14 +56,14 @@ mainSections = ["post"]  # 主内容区域，显示文章内容。
 featuredImageField = "image"  # 特色图片字段的名称。
 rssFullContent = true  # RSS 提要是否包含全文内容。
 favicon = ""  # 网站的favicon路径，例如`/favicon.ico`。
+ShowReadingTime = true  # 是否显示预计阅读时间。
+ShowWordCount = false  # 是否显示字数统计。
 
 [params.footer]
 since = 2020  # 网站创建年份，通常显示在页脚。
 customText = ""  # 自定义页脚文本。
 
-[params.dateFormat]
-published = "Jan 02, 2006"  # 发布日期格式。
-lastUpdated = "Jan 02, 2006 15:04 MST"  # 最后更新日期格式。
+dateFormat = "Jan 02, 2006"  # 日期格式
 
 [params.sidebar]
 emoji = "🍥"  # 侧边栏标题旁显示的 emoji。
@@ -77,7 +77,6 @@ src = "img/avatar.png"  # 头像图片路径。
 [params.article]
 math = false  # 是否支持数学公式渲染。
 toc = true  # 是否显示文章目录。
-readingTime = true  # 是否显示预计阅读时间。
 
 [params.article.license]
 enabled = true  # 是否启用文章版权信息。
