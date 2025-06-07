@@ -1,4 +1,4 @@
-baseURL: "https://gldexp.cn"  # 替换为你的实际域名
+baseURL: "/"  # 使用相对路径，适配多平台部署
 languageCode: "zh-cn"
 theme: "PaperMod"
 

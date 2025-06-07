@@ -1,9 +1,12 @@
 {
   "build": {
     "env": {
-      "HUGO_VERSION": "0.147.6"
+      "HUGO_VERSION": "0.147.6",
+      "NODE_VERSION": "18"
     }
   },
+  "buildCommand": "hugo --gc --minify",
+  "outputDirectory": "public",
   "redirects": [
     {
       "source": "/index.xml",
@@ -40,15 +43,6 @@
     },
     {
       "source": "/static/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/(.*\\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))",
       "headers": [
         {
           "key": "Cache-Control",
