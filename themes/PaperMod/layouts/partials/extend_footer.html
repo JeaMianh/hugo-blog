@@ -2,14 +2,30 @@
 {{- /* layouts/partials/extend_footer.html */ -}}
 <style>
 .post-layout-switcher-meta {
-  margin-left: 10px; /* 与"编辑此页"按钮保持一些间距 */
-  vertical-align: middle; /* 尝试垂直对齐 */
+  margin-left: 10px; /* 在两个按钮之间添加间距 */
+  vertical-align: baseline; /* 与文本基线对齐 */
+  display: inline; /* 确保内联显示 */
 }
 
 .post-layout-switcher-meta #layout-switch-button {
-    font-size: var(--sm); /* 尝试与编辑按钮字体大小一致 */
-    line-height: inherit;
-    padding: 2px 6px; /* 调整内边距以匹配 */
+  font-size: 14px; /* 与post-meta字体大小一致 */
+  line-height: inherit;
+  vertical-align: baseline; /* 基线对齐 */
+}
+
+/* 确保在post-meta中的所有元素都正确对齐 */
+.post-meta {
+  align-items: baseline; /* 使用基线对齐而不是center */
+}
+
+/* 在竖排模式下，也确保正确对齐 */
+#post-scrollable-area.vertical-rl .post-meta {
+  align-items: baseline;
+}
+
+#post-scrollable-area.vertical-rl .post-layout-switcher-meta {
+  display: inline; /* 保持内联显示 */
+  vertical-align: baseline; /* 基线对齐 */
 }
 
 #post-scrollable-area.vertical-rl {
@@ -18,14 +34,65 @@
   /* 模拟纸张效果 */
   background-color: #f9f9f9; /* 略微偏黄的背景 */
   padding: 1em;
-  /* margin: 1em 0; */ /* 由外部容器控制或移除 */
-  /* box-shadow: 0 0 10px rgba(0,0,0,0.1); */ /* 阴影效果可按需保留或调整 */
-  line-height: 2;
-  letter-spacing: 0.1em;
-  max-height: 75vh; /* 限制最大高度，例如视口高度的75% */
-  overflow-x: auto;  /* 内容超出时水平滚动 */
-  overflow-y: hidden; /* 通常竖排时不需要垂直滚动条 */
+  /* margin: 1em 0; */ /* 由外部容器控制或移除 */  /* box-shadow: 0 0 10px rgba(0,0,0,0.1); */ /* 阴影效果可按需保留或调整 */  line-height: 2;  letter-spacing: 0.1em;  /* 固定显示区域的尺寸 */
+  height: 80vh; /* 调整高度，为页脚留出空间 */
+  width: 95% !important; /* 扩展宽度，左右留5%空间 */
+  max-width: 4000px !important; /* 增加最大宽度，允许更宽的显示 */
+  margin: 0 auto; /* 居中显示 */
+  overflow-x: auto; /* 水平滚动 */
+  overflow-y: hidden; /* 隐藏垂直滚动 */
   border: 1px solid var(--border); /* 添加边框以突出显示区域 */
+  box-sizing: border-box;
+  /* 确保容器本身不会扩展 */
+  position: relative;
+}
+
+/* 在竖排模式下，内容容器的设置 */
+#post-scrollable-area.vertical-rl .post-content {
+  /* 让内容自然地展开，形成可滚动的区域 */
+  width: max-content; /* 内容根据需要自然扩展宽度 */
+  min-width: auto; /* 移除过大的最小宽度 */
+  min-height: 100%; /* 确保内容至少占满容器高度 */
+}
+
+/* 在竖排模式下，确保页脚紧跟内容 */
+#post-scrollable-area.vertical-rl .post-footer {
+  width: max-content; /* 让页脚宽度适应内容 */
+  margin-left: 1em; /* 在竖排模式下，margin-left 相当于水平模式的 margin-top */
+}
+
+/* 在竖排模式下，确保所有主要内容块都紧凑排列 */
+#post-scrollable-area.vertical-rl .post-header,
+#post-scrollable-area.vertical-rl .post-content,
+#post-scrollable-area.vertical-rl .post-footer {
+  display: inline-block; /* 让这些元素在竖排模式下紧凑排列 */
+  vertical-align: top; /* 顶部对齐 */
+}
+
+/* 在竖排模式下，段落和其他文本元素的设置 */
+#post-scrollable-area.vertical-rl .post-content p,
+#post-scrollable-area.vertical-rl .post-content div,
+#post-scrollable-area.vertical-rl .post-content blockquote {
+  width: max-content; /* 让文本块自然扩展 */
+}
+
+/* 自定义滚动条样式（适用于 Webkit 浏览器） */
+#post-scrollable-area.vertical-rl::-webkit-scrollbar {
+  height: 12px; /* 水平滚动条的高度 */
+}
+
+#post-scrollable-area.vertical-rl::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 6px;
+}
+
+#post-scrollable-area.vertical-rl::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 6px;
+}
+
+#post-scrollable-area.vertical-rl::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 /* 针对竖排版优化图片等元素 */
@@ -40,17 +107,23 @@
 }
 
 #layout-switch-button {
-  padding: 0.5em 1em;
-  background-color: var(--primary);
-  color: var(--primary_contrast);
+  /* 移除所有可能的下划线和装饰 */
+  background: none;
   border: none;
-  border-radius: 4px;
+  color: var(--secondary); /* 使用与其他meta信息一致的颜色 */
   cursor: pointer;
-  font-size: 0.9em;
+  font-size: 14px; /* 与post-meta字体大小一致 */
+  padding: 0; /* 移除内边距 */
+  text-decoration: none !important; /* 强制移除任何下划线 */
+  box-shadow: none !important; /* 强制移除任何阴影下划线 */
+  outline: none; /* 移除焦点轮廓 */
+  border-bottom: none !important; /* 确保没有边框下划线 */
 }
 
 #layout-switch-button:hover {
-  opacity: 0.8;
+  color: var(--primary); /* 悬停时使用主色调 */
+  text-decoration: none !important; /* 确保悬停时也没有下划线 */
+  box-shadow: none !important; /* 确保悬停时也没有阴影 */
 }
 </style>
 
@@ -58,50 +131,60 @@
 document.addEventListener('DOMContentLoaded', function () {
   const switchButton = document.getElementById('layout-switch-button');
   const postScrollableArea = document.getElementById('post-scrollable-area');
-  const layoutCookieName = 'preferred_layout';
-
-  if (switchButton && postScrollableArea) {
+  const layoutCookieName = 'preferred_layout';  if (switchButton && postScrollableArea) {
     // 读取 cookie 中保存的偏好
     const preferredLayout = getCookie(layoutCookieName);
     if (preferredLayout === 'vertical') {
       postScrollableArea.classList.add('vertical-rl');
-      switchButton.textContent = '切换为横排';
-      // Ensure the content is scrolled to the far right (start of vertical text)
-      // This needs to be done after the browser has rendered the new layout
+      switchButton.textContent = '横排';
+      // 确保内容滚动到最右端（竖排文本的开头）
+      // 需要在浏览器渲染新布局后进行
       setTimeout(() => {
-        if (postScrollableArea.classList.contains('vertical-rl')) { // Check again in case layout changed
+        if (postScrollableArea.classList.contains('vertical-rl')) { // 再次检查以防布局改变
+            // 在竖排模式下，文章开头在最右端（scrollLeft = scrollWidth - clientWidth）
+            // 文章结尾在最左端（scrollLeft = 0）
             postScrollableArea.scrollLeft = postScrollableArea.scrollWidth - postScrollableArea.clientWidth;
         }
-      }, 100); // Increased delay to ensure rendering is complete
+      }, 200); // 增加延迟确保渲染完成
     } else {
-      // Default to horizontal if cookie is not 'vertical' or not set
+      // 如果 cookie 不是 'vertical' 或未设置，默认为水平布局
       postScrollableArea.classList.remove('vertical-rl');
-      switchButton.textContent = '切换为竖排';
+      switchButton.textContent = '竖排';
     }
 
+    // 添加鼠标滚轮事件监听器
     postScrollableArea.addEventListener('wheel', function(event) {
       if (postScrollableArea.classList.contains('vertical-rl')) {
         // 阻止默认的垂直滚动行为
         event.preventDefault();
-        // 将垂直滚动（deltaY）转换为水平滚动
-        // 滚动速度可以根据需要调整 event.deltaY 后面的乘数
-        postScrollableArea.scrollLeft += event.deltaY * 1.5; 
+        event.stopPropagation();
+          // 将垂直滚动（deltaY）转换为水平滚动
+        // 注意：在竖排模式下，向下滚动应该向左移动（阅读进度向前）
+        // 向上滚动应该向右移动（阅读进度向后）
+        const scrollSpeed = 2; // 调整滚动速度
+        postScrollableArea.scrollLeft -= event.deltaY * scrollSpeed;
+          return false;
       }
     }, { passive: false }); // passive: false 允许 preventDefault
 
     switchButton.addEventListener('click', function () {
       postScrollableArea.classList.toggle('vertical-rl');
       if (postScrollableArea.classList.contains('vertical-rl')) {
-        this.textContent = '切换为横排';
+        this.textContent = '横排';
         setCookie(layoutCookieName, 'vertical', 30); // 保存偏好30天
-        // Ensure the content is scrolled to the far right (start of vertical text)
-        // This needs to be done after the browser has rendered the new layout
+        // 确保内容滚动到最右端（竖排文本的开头）
+        // 需要在浏览器渲染新布局后进行
         setTimeout(() => {
-          postScrollableArea.scrollLeft = postScrollableArea.scrollWidth - postScrollableArea.clientWidth;
-        }, 100); // Increased delay to ensure rendering is complete
+          if (postScrollableArea.classList.contains('vertical-rl')) {
+            // 滚动到最右端，这是竖排文本的开头
+            postScrollableArea.scrollLeft = postScrollableArea.scrollWidth - postScrollableArea.clientWidth;
+          }
+        }, 200); // 增加延迟确保渲染完成
       } else {
-        this.textContent = '切换为竖排';
+        this.textContent = '竖排';
         setCookie(layoutCookieName, 'horizontal', 30);
+        // 切换回水平模式时，滚动到顶部
+        postScrollableArea.scrollTop = 0;
       }
     });
   }
