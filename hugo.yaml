@@ -6,6 +6,7 @@ theme: "PaperMod"
 outputs:
   home:
     - HTML
+    - RSS
     - JSON  # 搜索功能需要JSON输出
 
 # 基础配置
@@ -56,11 +57,11 @@ permalinks:
 params:
   env: production  # 启用 Google Analytics, OpenGraph, Twitter Cards
   title: "GoldExperience"
-  description: "分享技术文章和生活感悟的个人博客"
+  description: "互联网上的一块自留地"
   keywords: ["博客", "技术", "编程", "生活"]
   author: "GoldExperience"
   
-  mainSections: ["post", "posts"]  # 主内容区域，显示文章内容。
+  mainSections: ["posts"]  # 主内容区域，显示文章内容。
   featuredImageField: "image"  # 特色图片字段的名称。
   rssFullContent: true  # RSS 提要是否包含全文内容。
   
@@ -96,7 +97,7 @@ params:
   # 首页信息模式
   homeInfoParams:
     Title: "欢迎来到 GoldExperience 👋"
-    Content: "这里分享技术文章、编程心得和生活感悟"
+    Content: "开荒南野际，守拙归园田。"
   
   # 社交图标
   socialIcons:
@@ -105,7 +106,7 @@ params:
     - name: rss
       url: "/index.xml"
     - name: email
-      url: "mailto:your-email@example.com"  # 替换为你的邮箱
+      url: "mailto:jeamianh@outlook.com"  # 替换为你的邮箱
 
   footer:
     since: 2020  # 网站创建年份，通常显示在页脚。
