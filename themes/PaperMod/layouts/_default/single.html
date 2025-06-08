@@ -1,7 +1,8 @@
 {{- define "main" }}
 
 <article class="post-single">
-  <header class="post-header">
+  <div id="post-scrollable-area">
+    <header class="post-header">
     {{ partial "breadcrumbs.html" . }}
     <h1 class="post-title entry-hint-parent">
       {{ .Title }}
@@ -24,6 +25,9 @@
       {{- partial "post_meta.html" . -}}
       {{- partial "translation_list.html" . -}}
       {{- partial "edit_post.html" . -}}
+      <span class="post-layout-switcher-meta">
+        <button id="layout-switch-button" aria-label="Toggle Layout">切换布局</button>
+      </span>
       {{- partial "post_canonical.html" . -}}
     </div>
     {{- end }}
@@ -56,6 +60,7 @@
     {{- partial "share_icons.html" . -}}
     {{- end }}
   </footer>
+  </div> <!-- Closing post-scrollable-area -->
 
   {{- if (.Param "comments") }}
   {{- partial "comments.html" . }}

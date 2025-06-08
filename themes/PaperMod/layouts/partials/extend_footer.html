@@ -1,3 +1,133 @@
 {{- /* Footer custom content area start */ -}}
-{{- /*     Insert any custom code web-analytics, resources, etc. here */ -}}
+{{- /* layouts/partials/extend_footer.html */ -}}
+<style>
+.post-layout-switcher-meta {
+  margin-left: 10px; /* 与"编辑此页"按钮保持一些间距 */
+  vertical-align: middle; /* 尝试垂直对齐 */
+}
+
+.post-layout-switcher-meta #layout-switch-button {
+    font-size: var(--sm); /* 尝试与编辑按钮字体大小一致 */
+    line-height: inherit;
+    padding: 2px 6px; /* 调整内边距以匹配 */
+}
+
+#post-scrollable-area.vertical-rl {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  /* 模拟纸张效果 */
+  background-color: #f9f9f9; /* 略微偏黄的背景 */
+  padding: 1em;
+  /* margin: 1em 0; */ /* 由外部容器控制或移除 */
+  /* box-shadow: 0 0 10px rgba(0,0,0,0.1); */ /* 阴影效果可按需保留或调整 */
+  line-height: 2;
+  letter-spacing: 0.1em;
+  max-height: 75vh; /* 限制最大高度，例如视口高度的75% */
+  overflow-x: auto;  /* 内容超出时水平滚动 */
+  overflow-y: hidden; /* 通常竖排时不需要垂直滚动条 */
+  border: 1px solid var(--border); /* 添加边框以突出显示区域 */
+}
+
+/* 针对竖排版优化图片等元素 */
+#post-scrollable-area.vertical-rl img,
+#post-scrollable-area.vertical-rl video,
+#post-scrollable-area.vertical-rl figure {
+  max-width: 100%; /* 在竖排时，这可能需要调整为 max-height */
+  height: auto;
+  /* display: block; */ /* 在竖排模式下，其块级行为可能不同 */
+  /* margin: 1em auto; */ /* 居中逻辑也可能需要调整 */
+  /* 建议：在竖排模式下，对这些元素的具体布局进行细致调整 */
+}
+
+#layout-switch-button {
+  padding: 0.5em 1em;
+  background-color: var(--primary);
+  color: var(--primary_contrast);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+#layout-switch-button:hover {
+  opacity: 0.8;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const switchButton = document.getElementById('layout-switch-button');
+  const postScrollableArea = document.getElementById('post-scrollable-area');
+  const layoutCookieName = 'preferred_layout';
+
+  if (switchButton && postScrollableArea) {
+    // 读取 cookie 中保存的偏好
+    const preferredLayout = getCookie(layoutCookieName);
+    if (preferredLayout === 'vertical') {
+      postScrollableArea.classList.add('vertical-rl');
+      switchButton.textContent = '切换为横排';
+      // Ensure the content is scrolled to the far right (start of vertical text)
+      // This needs to be done after the browser has rendered the new layout
+      setTimeout(() => {
+        if (postScrollableArea.classList.contains('vertical-rl')) { // Check again in case layout changed
+            postScrollableArea.scrollLeft = postScrollableArea.scrollWidth - postScrollableArea.clientWidth;
+        }
+      }, 100); // Increased delay to ensure rendering is complete
+    } else {
+      // Default to horizontal if cookie is not 'vertical' or not set
+      postScrollableArea.classList.remove('vertical-rl');
+      switchButton.textContent = '切换为竖排';
+    }
+
+    postScrollableArea.addEventListener('wheel', function(event) {
+      if (postScrollableArea.classList.contains('vertical-rl')) {
+        // 阻止默认的垂直滚动行为
+        event.preventDefault();
+        // 将垂直滚动（deltaY）转换为水平滚动
+        // 滚动速度可以根据需要调整 event.deltaY 后面的乘数
+        postScrollableArea.scrollLeft += event.deltaY * 1.5; 
+      }
+    }, { passive: false }); // passive: false 允许 preventDefault
+
+    switchButton.addEventListener('click', function () {
+      postScrollableArea.classList.toggle('vertical-rl');
+      if (postScrollableArea.classList.contains('vertical-rl')) {
+        this.textContent = '切换为横排';
+        setCookie(layoutCookieName, 'vertical', 30); // 保存偏好30天
+        // Ensure the content is scrolled to the far right (start of vertical text)
+        // This needs to be done after the browser has rendered the new layout
+        setTimeout(() => {
+          postScrollableArea.scrollLeft = postScrollableArea.scrollWidth - postScrollableArea.clientWidth;
+        }, 100); // Increased delay to ensure rendering is complete
+      } else {
+        this.textContent = '切换为竖排';
+        setCookie(layoutCookieName, 'horizontal', 30);
+      }
+    });
+  }
+
+  // Cookie helper functions
+  function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  }
+
+  function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
+});
+</script>
+
 {{- /* Footer custom content area end */ -}}
