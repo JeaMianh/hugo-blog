@@ -1,0 +1,139 @@
+{{- define "main" }}
+
+{{/* HTML for the custom modal dialog - it can be placed anywhere in the file */}}
+<div id="new-post-modal" class="modal-overlay" style="display: none;">
+  <div class="modal-content">
+    <h2>创建新文章</h2>
+    <p>请输入新文章的标题：</p>
+    <input type="text" id="new-post-title-input" placeholder="文章标题">
+    <div class="modal-buttons">
+      <button id="modal-cancel-button">取消</button>
+      <button id="modal-ok-button">确定</button>
+    </div>
+  </div>
+</div>
+
+{{/* Page Header: Re-created to include both RSS and New Post buttons */}}
+<header class="page-header">
+  <h1 class="list-page-title">
+    <span>{{ .Title }}</span>
+    <div class="list-page-icons">
+      {{- with .OutputFormats.Get "rss" -}}
+      <a href="{{ .Permalink | safeURL }}" title="RSS" class="rss-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" height="23">
+              <path d="M4 11a9 9 0 0 1 9 9"></path>
+              <path d="M4 4a16 16 0 0 1 16 16"></path>
+              <circle cx="5" cy="19" r="1"></circle>
+          </svg>
+      </a>
+      {{- end -}}
+      <a href="javascript:void(0);" id="new-post-button" title="New Post" class="new-post-button-style">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+      </a>
+    </div>
+  </h1>
+  {{- if .Description }}
+  <div class="page-description">{{ .Description }}</div>
+  {{- end }}
+</header>
+
+
+{{- if .Content }}
+<div class="post-content">{{ .Content }}</div>
+{{- end }}
+
+{{/*
+    THIS IS THE CORRECT AND ROBUST WAY TO RENDER THE POST LIST.
+    It uses the exact logic that the theme's default template uses.
+*/}}
+{{- $pages := .Paginator.Pages }}
+<div class="post-list">
+    {{- range $pages }}
+    {{- .Render "summary" -}}
+    {{- end }}
+</div>
+{{- partial "pagination.html" . -}}
+
+
+{{/* JavaScript for the modal functionality */}}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const newPostButton = document.getElementById('new-post-button');
+  const modal = document.getElementById('new-post-modal');
+  const okButton = document.getElementById('modal-ok-button');
+  const cancelButton = document.getElementById('modal-cancel-button');
+  const titleInput = document.getElementById('new-post-title-input');
+
+  if (newPostButton) {
+    newPostButton.addEventListener('click', function() {
+      modal.style.display = 'flex';
+      titleInput.focus();
+      titleInput.value = '';
+    });
+  }
+
+  function closeModal() {
+    modal.style.display = 'none';
+  }
+
+  cancelButton.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(event) {
+    if (event.target === modal) {
+      closeModal();
+    }
+  });
+
+  okButton.addEventListener('click', function() {
+    const title = titleInput.value;
+    if (title === null || title.trim() === "") {
+      return;
+    }
+
+    // NEW, ROBUST LOGIC: Create a slug for the folder name.
+    // This version uses a Unicode-aware regex to correctly handle CJK and other language characters.
+    var folderName = title.toLowerCase()
+        .replace(/\s+/g, '-')               // Replace all whitespace with a hyphen
+        .replace(/[^\p{L}\p{N}-]/gu, '')    // Remove any character that is not a letter (any language), number, or hyphen
+        .replace(/\-\-+/g, '-')             // Collapse consecutive hyphens
+        .replace(/^-+/, '')                 // Trim hyphens from the start
+        .replace(/-+$/, '');                // Trim hyphens from the end
+
+    if (!folderName) {
+      folderName = "post-" + Date.now();
+    }
+    
+    // NEW LOGIC: Define the full path for "folder/index.md"
+    var fullPath = `content/posts/${folderName}/index.md`;
+
+    var now = new Date();
+    var timezoneOffset = -now.getTimezoneOffset();
+    var diff = timezoneOffset >= 0 ? '+' : '-';
+    var pad = function(num) { return (num < 10 ? '0' : '') + num; };
+    var isoDate = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate()) + 'T' + pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds()) + diff + pad(Math.floor(Math.abs(timezoneOffset) / 60)) + ':' + pad(Math.abs(timezoneOffset) % 60);
+
+    var content = `---
+title: "${title.replace(/"/g, '\\"')}"
+date: ${isoDate}
+draft: true
+---
+
+`;
+
+    var repoURL = "https://github.com/JeaMianh/hugo-blog";
+    // NEW LOGIC: Use the full path in the `filename` query parameter
+    var newFileURL = `${repoURL}/new/main?filename=${encodeURIComponent(fullPath)}&value=${encodeURIComponent(content)}`;
+    
+    window.open(newFileURL, '_blank');
+    closeModal();
+  });
+
+  titleInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      okButton.click();
+    }
+  });
+});
+</script>
+
+{{- end }}{{/* end main */}} 

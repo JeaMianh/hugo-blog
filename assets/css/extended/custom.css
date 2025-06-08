@@ -56,3 +56,132 @@ h1 { line-height: 1.4; }
 h2 { line-height: 1.5; }
 h3 { line-height: 1.6; }
 h4, h5, h6 { line-height: 1.7; }
+
+/* --- Icon Styles --- */
+.list-page-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-page-icons {
+  display: flex;
+  align-items: center;
+  gap: 14px; /* Space between icons */
+}
+
+.list-page-icons a {
+  color: var(--content); /* This is black/dark in light mode, white in dark mode */
+  opacity: 0.6;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.list-page-icons a:hover {
+  opacity: 1;
+}
+
+/* --- Modal Styles --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent; /* Changed from dark to transparent */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  -webkit-backdrop-filter: blur(4px); /* Increased blur for a better effect */
+  backdrop-filter: blur(4px); /* Increased blur for a better effect */
+}
+
+.modal-content {
+  background: var(--card-background); /* Bright background for the modal itself */
+  color: var(--card-text-color);
+  padding: 25px 30px;
+  border-radius: var(--radius);
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  border: 1px solid var(--border-color);
+  animation: modal-fade-in 0.3s ease-out;
+}
+
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: var(--primary);
+}
+
+.modal-content p {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.modal-content input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  background: var(--background);
+  color: var(--content);
+  font-family: inherit;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.modal-content input[type="text"]:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 25%, transparent);
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-buttons button {
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+#modal-ok-button {
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+#modal-ok-button:hover {
+  background-color: var(--primary);
+  color: var(--primary-contrast);
+}
+
+#modal-cancel-button {
+  background-color: transparent;
+  color: var(--content);
+  border: 1px solid var(--border-color);
+}
+
+#modal-cancel-button:hover {
+  background-color: var(--border-color);
+}
