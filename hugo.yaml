@@ -127,10 +127,10 @@ params:
       default: "本文采用 CC BY-NC-SA 4.0 许可协议"  # 中文版权协议
   
   # 文章编辑链接
-  # editPost:
-  #   URL: "https://github.com/你的用户名/你的仓库/tree/main/content"  # 替换为你的仓库
-  #   Text: "编辑此页"
-  #   appendFilePath: true
+  editPost:
+    URL: "https://github.com/JeaMianh/hugo-blog/tree/main/content"
+    Text: "编辑此页"
+    appendFilePath: true
   
   # 搜索功能配置
   fuseOpts:
@@ -274,6 +274,10 @@ menu:
       name: "文章"
       url: /posts/
       weight: 20
+    - identifier: books
+      name: "读书"
+      url: /books/
+      weight: 25
     - identifier: categories
       name: "分类"
       url: /categories/
