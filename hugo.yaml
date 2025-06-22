@@ -109,7 +109,7 @@ params:
       url: "mailto:jeamianh@outlook.com"  # 替换为你的邮箱
 
   footer:
-    since: 2020  # 网站创建年份，通常显示在页脚。
+    since: 2023  # 网站创建年份，通常显示在页脚。
     customText: ""  # 自定义页脚文本。
 
   sidebar:
@@ -275,9 +275,9 @@ menu:
       name: "文章"
       url: /posts/
       weight: 20
-    - identifier: books
-      name: "读书"
-      url: /books/
+    # - identifier: books
+    #   name: "读书"
+    #   url: /books/
       weight: 25
     - identifier: categories
       name: "分类"
