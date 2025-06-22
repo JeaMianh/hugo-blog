@@ -97,14 +97,14 @@ h4, h5, h6 { line-height: 1.7; }
 }
 
 .modal-content {
-  background: var(--card-background); /* Bright background for the modal itself */
-  color: var(--card-text-color);
+  background: var(--entry); /* Use PaperMod theme variable for card background */
+  color: var(--content); /* Use PaperMod theme variable for text color */
   padding: 25px 30px;
   border-radius: var(--radius);
   width: 90%;
   max-width: 500px;
   box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border); /* Use PaperMod theme variable for border color */
   animation: modal-fade-in 0.3s ease-out;
 }
 
@@ -132,9 +132,9 @@ h4, h5, h6 { line-height: 1.7; }
 .modal-content input[type="text"] {
   width: 100%;
   padding: 10px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border); /* Use PaperMod theme variable for border color */
   border-radius: var(--radius);
-  background: var(--background);
+  background: var(--theme); /* Use PaperMod theme variable for page background */
   color: var(--content);
   font-family: inherit;
   font-size: 1rem;
@@ -179,9 +179,9 @@ h4, h5, h6 { line-height: 1.7; }
 #modal-cancel-button {
   background-color: transparent;
   color: var(--content);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border); /* Use PaperMod theme variable for border color */
 }
 
 #modal-cancel-button:hover {
-  background-color: var(--border-color);
+  background-color: var(--border); /* Use PaperMod theme variable for border color */
 }
