@@ -1,7 +1,11 @@
 {{ define "main" }}
 <main class="main">
     <div class="post-content">
-        <div id="graph-container" style="width: 100%; height: 80vh;"></div>
+        <div id="graph-container" style="
+            width: 100%; 
+            height: 90vh; 
+            margin: 0;
+        "></div>
     </div>
 </main>
 
@@ -28,11 +32,10 @@
             {{- if and (ne $page.Type "graph") (not .Params.private) -}}
             {{- if $page.Params.links -}}
             {{- range $link_title := $page.Params.links -}}
-            {{- $targetPage := where $.Site.RegularPages "Title" $link_title | first -}}
-            {{- if $targetPage -}}
+            {{- range $target := where $.Site.RegularPages "Title" $link_title -}}
             {
                 source: {{ $page.Title | jsonify }},
-                target: {{ $targetPage.Title | jsonify }}
+                target: {{ $target.Title | jsonify }}
             },
             {{- end -}}
             {{- end -}}
@@ -45,64 +48,116 @@
             {{- range $name, $taxonomy := .Site.Taxonomies.categories -}}
             { name: {{ $name | jsonify }} },
             {{- end -}}
-        ];
-
-        var option = {
+        ];        var option = {
             title: {
                 text: '知识网络图谱',
                 top: 'bottom',
-                left: 'right'
+                left: 'right',
+                textStyle: {
+                    color: '#8892b0',
+                    fontSize: 14
+                }
             },
             tooltip: {
                 formatter: function (params) {
                     if (params.dataType === 'node') {
-                        return params.name;
+                        return '<div style="padding: 8px; border-radius: 4px;">' +
+                               '<strong>' + params.name + '</strong><br/>' +
+                               '<span style="color: #8892b0; font-size: 12px;">点击跳转到文章</span>' +
+                               '</div>';
+                    } else if (params.dataType === 'edge') {
+                        return '<div style="padding: 8px; border-radius: 4px;">' +
+                               params.data.source + ' → ' + params.data.target +
+                               '</div>';
                     }
+                },
+                backgroundColor: 'rgba(50, 50, 50, 0.95)',
+                borderColor: '#64748b',
+                textStyle: {
+                    color: '#e2e8f0'
                 }
             },
             legend: [{
                 data: categories.map(function (a) {
                     return a.name;
-                })
-            }],
-            animationDuration: 1500,
-            animationEasingUpdate: 'quinticInOut',
-            series: [
-                {
+                }),
+                textStyle: {
+                    color: '#64748b'
+                }
+            }],            animationDuration: 1000,
+            animationEasingUpdate: 'cubicOut',
+            series: [                {
                     type: 'graph',
-                    layout: 'force',
-                    data: nodes,
+                    layout: 'force',                    data: nodes.map(function(node) {
+                        return {
+                            ...node,
+                            symbolSize: Math.max(15, Math.min(25, node.name.length * 2)),
+                            itemStyle: {
+                                borderColor: '#64748b',
+                                borderWidth: 1,
+                                shadowBlur: 3,
+                                shadowColor: 'rgba(0, 0, 0, 0.3)'
+                            }
+                        };
+                    }),
                     links: links,
-                    categories: categories,
-                    roam: true,
+                    categories: categories.map(function(cat) {
+                        return {
+                            ...cat,
+                            itemStyle: {
+                                color: ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4'][categories.indexOf(cat) % 6]
+                            }
+                        };
+                    }),                    roam: true,
+                    focusNodeAdjacency: true,
                     label: {
                         show: true,
                         position: 'right',
-                        formatter: '{b}'
-                    },
-                    lineStyle: {
-                        color: 'source',
-                        curveness: 0.3
+                        formatter: '{b}',
+                        fontSize: 12,
+                        color: '#1e293b',
+                        fontWeight: 500
+                    },                    lineStyle: {
+                        color: '#94a3b8',
+                        width: 1,
+                        curveness: 0,
+                        opacity: 0.7
                     },
                     emphasis: {
                         focus: 'adjacency',
+                        label: {
+                            fontSize: 14,
+                            fontWeight: 'bold'
+                        },
                         lineStyle: {
-                            width: 10
+                            width: 3,
+                            opacity: 1,
+                            color: '#3b82f6'
+                        },
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(59, 130, 246, 0.5)'
                         }
-                    },
-                    force: {
-                        repulsion: 100
+                    },                    force: {
+                        repulsion: 120,
+                        gravity: 0.05,
+                        edgeLength: 80,
+                        layoutAnimation: true
                     }
                 }
             ]
-        };
+        };        chart.setOption(option);
 
-        chart.setOption(option);
-
+        // 点击节点跳转
         chart.on('click', function (params) {
             if (params.dataType === 'node' && params.value) {
                 window.open(params.value, '_self');
             }
+        });
+
+        // 窗口大小改变时重新调整图表
+        window.addEventListener('resize', function() {
+            chart.resize();
         });
     });
 </script>
