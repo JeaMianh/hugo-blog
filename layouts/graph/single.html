@@ -27,22 +27,7 @@
             {{- end -}}
         ];
 
-        var links = [
-            {{- range $page := .Site.RegularPages -}}
-            {{- if and (ne $page.Type "graph") (not .Params.private) -}}
-            {{- if $page.Params.links -}}
-            {{- range $link_title := $page.Params.links -}}
-            {{- range $target := where $.Site.RegularPages "Title" $link_title -}}
-            {
-                source: {{ $page.Title | jsonify }},
-                target: {{ $target.Title | jsonify }}
-            },
-            {{- end -}}
-            {{- end -}}
-            {{- end -}}
-            {{- end -}}
-            {{- end -}}
-        ];
+        var links = [];
         
         var categories = [
             {{- range $name, $taxonomy := .Site.Taxonomies.categories -}}
