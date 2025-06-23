@@ -1,4 +1,10 @@
 {{ define "main" }}
+{{- /* Force render all pages to populate Store */ -}}
+{{- range .Site.RegularPages -}}
+    {{- /* Silently render content to trigger link processing */ -}}
+    <!-- {{ .Content | htmlEscape }} -->
+{{- end -}}
+
 <main class="main">
     <div class="post-content">
         <div id="graph-container" style="
@@ -15,23 +21,36 @@
         var chart = echarts.init(document.getElementById('graph-container'));
 
         var nodes = [
+            {{- $nodeIndex := 0 -}}
             {{- range $index, $page := .Site.RegularPages -}}
-            {{- if and (ne $page.Type "graph") (not .Params.private) -}}            {
+            {{- if and (ne $page.Type "graph") (not .Params.private) -}}
+            {{- if $nodeIndex -}},{{- end -}}
+            {
                 id: {{ $page.Title | jsonify }},
                 name: {{ $page.Title | jsonify }},
                 symbolSize: 10,
                 value: "{{ $page.RelPermalink }}",
                 category: {{ with $page.Params.categories }}{{ index $page.Params.categories 0 | jsonify }}{{ else }}null{{ end }}
-            },
+            }
+            {{- $nodeIndex = add $nodeIndex 1 -}}
             {{- end -}}
             {{- end -}}
         ];
 
-        var links = [];
+        var links = [ 
+            {{- range $index, $link := site.Store.Get "links" -}}
+            {{- if $index -}},{{- end -}}
+            {
+                source: {{ $link.source | jsonify }},
+                target: {{ $link.target | jsonify }}
+            }
+            {{- end -}}
+        ];
         
         var categories = [
-            {{- range $name, $taxonomy := .Site.Taxonomies.categories -}}
-            { name: {{ $name | jsonify }} },
+            {{- range $index, $name := (sort (.Site.Taxonomies.categories.ByCount.Reverse) "Name" "asc") -}}
+            {{- if $index -}},{{- end -}}
+            { name: {{ $name.Name | jsonify }} }
             {{- end -}}
         ];        var option = {
             title: {

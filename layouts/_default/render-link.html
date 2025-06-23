@@ -1,0 +1,38 @@
+{{- $is_wikilink := and (strings.HasPrefix .Text "[[") (strings.HasSuffix .Text "]]") -}}
+{{- $is_internal_link := and (not $is_wikilink) (not (strings.HasPrefix .Destination "http")) (not (strings.HasPrefix .Destination "mailto:")) (not (strings.HasPrefix .Destination "#")) -}}
+
+{{- if $is_wikilink -}}
+    {{- $link_text := strings.TrimSuffix "]]" (strings.TrimPrefix "[[" .Text) -}}
+    {{- $link_parts := split $link_text "|" -}}
+    {{- $link_target := index $link_parts 0 -}}
+    {{- $link_display := cond (gt (len $link_parts) 1) (index $link_parts 1) $link_target -}}
+
+    {{- $resolved_page := site.GetPage $link_target -}}
+    {{- if not $resolved_page -}}
+        {{- $resolved_page = site.GetPage (printf "%s/index" $link_target) -}}
+    {{- end -}}
+    {{- if not $resolved_page -}}
+        {{- $resolved_page = site.GetPage (printf "/%s" $link_target) -}}
+    {{- end -}}
+    {{- if not $resolved_page -}}
+        {{- $resolved_page = site.GetPage (printf "/%s/" $link_target) -}}
+    {{- end -}}
+    {{- if not $resolved_page -}}
+        {{- $resolved_page = site.GetPage (printf "posts/%s" $link_target) -}}
+    {{- end -}}
+    {{- with $resolved_page -}}
+        {{- site.Store.Add "links" (slice (dict "source" $.Page.Title "target" .Title)) -}}
+        <a href="{{ .RelPermalink }}">{{ $link_display }}</a>
+    {{- else -}}
+        <a href="{{ $link_target | safeURL }}" class="wikilink-unresolved">{{ $link_display }}</a>
+    {{- end -}}
+{{- else if $is_internal_link -}}
+    {{- with .Page.GetPage .Destination -}}
+        {{- site.Store.Add "links" (slice (dict "source" $.Page.Title "target" .Title)) -}}
+        <a href="{{ relref $.Page $.Destination }}">{{ $.Text | safeHTML }}</a>
+    {{- else -}}
+        <a href="{{ .Destination | safeURL }}">{{ .Text | safeHTML }}</a>
+    {{- end -}}
+{{- else -}}
+    <a href="{{ .Destination | safeURL }}"{{ with .Title}} title="{{ . }}"{{ end }}{{ if strings.HasPrefix .Destination "http" }} target="_blank" rel="noopener"{{ end }}>{{ .Text | safeHTML }}</a>
+{{- end -}}

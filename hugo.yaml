@@ -319,6 +319,9 @@ markup:
     renderer:
       ## Set to true if you have HTML content inside Markdown
       unsafe: true  # 如果 Markdown 中包含 HTML 内容，设置为 true 以允许渲染这些 HTML。
+    renderHooks:
+      link:
+        render: "render-link.html"
 
   tableOfContents:
     endLevel: 4  # 目录生成时的最大标题级别。
