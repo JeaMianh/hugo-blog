@@ -1,6 +1,6 @@
 ---
 title: "关于这片自留地"
-description: "开荒南野际，守拙归园田。欢迎来到 GoldExperience 的数字田园。"
+description: "开荒南野际，守拙归园田。"
 ---
 
 你好，我是 **GoldExperience**。
