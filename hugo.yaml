@@ -1,4 +1,4 @@
-baseURL: "/"  # 使用相对路径，适配多平台部署
+baseURL: "https://www.gldexp.cn/"
 languageCode: "zh-cn"
 theme: "PaperMod"
 
@@ -106,7 +106,7 @@ params:
     enabled: true
     title: "GoldExperience"
     subtitle: "开荒南野际，守拙归田园。"
-    imageUrl: "/avatar.png"
+    imageUrl: "/image/avatar.png"
     imageWidth: 120
     imageHeight: 120
     imageTitle: "avatar"
