@@ -148,6 +148,26 @@ h4, h5, h6 { line-height: 1.7; }
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 25%, transparent);
 }
 
+.modal-content textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--theme);
+  color: var(--content);
+  font-family: inherit;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.modal-content textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 25%, transparent);
+}
+
 .modal-buttons {
   display: flex;
   justify-content: flex-end;
@@ -184,4 +204,33 @@ h4, h5, h6 { line-height: 1.7; }
 
 #modal-cancel-button:hover {
   background-color: var(--border); /* Use PaperMod theme variable for border color */
+}
+
+.watermark {
+    display: none;
+}
+
+/* Timeline styles for notes section */
+.timeline {
+    position: relative;
+    margin: 0 auto;
+    padding: 2em 0;
+}
+
+.timeline-item {
+    padding: 1.5em;
+    margin-bottom: 1.5em;
+    background: var(--entry);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+}
+
+.timeline-content {
+    margin-bottom: 1em;
+}
+
+.timeline-footer {
+    text-align: right;
+    font-size: 0.9em;
+    color: var(--secondary);
 }

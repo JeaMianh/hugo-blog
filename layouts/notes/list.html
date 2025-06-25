@@ -1,0 +1,120 @@
+{{- define "main" }}
+
+{{/* Modal for new note */}}
+<div id="new-note-modal" class="modal-overlay" style="display: none;">
+  <div class="modal-content">
+    <h2>写一条新的碎碎念</h2>
+    <textarea id="new-note-content-input" placeholder="今天有什么新鲜事？" rows="5"></textarea>
+    <div class="modal-buttons">
+      <button id="modal-cancel-button">取消</button>
+      <button id="modal-ok-button">发布到 GitHub</button>
+    </div>
+  </div>
+</div>
+
+<header class="page-header">
+  <h1 class="list-page-title">
+    <span>{{ .Title }}</span>
+    <div class="list-page-icons">
+      {{- with .OutputFormats.Get "rss" -}}
+        <a href="{{ .Permalink | safeURL }}" title="RSS" class="rss-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" height="23">
+                <path d="M4 11a9 9 0 0 1 9 9"></path>
+                <path d="M4 4a16 16 0 0 1 16 16"></path>
+                <circle cx="5" cy="19" r="1"></circle>
+            </svg>
+        </a>
+      {{- end -}}
+      <a href="javascript:void(0);" id="new-note-button" title="New Note" class="new-post-button-style">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+      </a>
+    </div>
+  </h1>
+  {{- if .Description }}
+  <div class="page-description">{{ .Description }}</div>
+  {{- end }}
+</header>
+
+<div class="timeline">
+{{- $pages := .Paginator.Pages }}
+{{- range $pages }}
+    <article class="timeline-item">
+        <div class="timeline-content">
+            {{ .Content }}
+        </div>
+        <footer class="timeline-footer">
+            <time datetime="{{ .Date.Format "2006-01-02 15:04:05" }}">{{ .Date.Format "January 2, 2006" }}</time>
+        </footer>
+    </article>
+{{- end }}
+</div>
+
+{{- partial "pagination.html" . -}}
+
+{{/* JavaScript for the modal functionality */}}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const newNoteButton = document.getElementById('new-note-button');
+  const modal = document.getElementById('new-note-modal');
+  const okButton = document.getElementById('modal-ok-button');
+  const cancelButton = document.getElementById('modal-cancel-button');
+  const contentInput = document.getElementById('new-note-content-input');
+
+  if (newNoteButton) {
+    newNoteButton.addEventListener('click', function() {
+      modal.style.display = 'flex';
+      contentInput.focus();
+      contentInput.value = '';
+    });
+  }
+
+  function closeModal() {
+    modal.style.display = 'none';
+  }
+
+  cancelButton.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(event) {
+    if (event.target === modal) {
+      closeModal();
+    }
+  });
+
+  okButton.addEventListener('click', function() {
+    const noteContent = contentInput.value;
+    if (noteContent === null || noteContent.trim() === "") {
+      return;
+    }
+
+    const now = new Date();
+    const pad = (num) => (num < 10 ? '0' : '') + num;
+    const filename = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}-${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}.md`;
+    const fullPath = `content/notes/${filename}`;
+
+    const timezoneOffset = -now.getTimezoneOffset();
+    const diff = timezoneOffset >= 0 ? '+' : '-';
+    const isoDate = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}${diff}${pad(Math.floor(Math.abs(timezoneOffset) / 60))}:${pad(Math.abs(timezoneOffset) % 60)}`;
+
+    const content = `---
+date: ${isoDate}
+---
+
+${noteContent}
+`;
+
+    const repoURL = "https://github.com/JeaMianh/hugo-blog";
+    const newFileURL = `${repoURL}/new/main?filename=${encodeURIComponent(fullPath)}&value=${encodeURIComponent(content)}`;
+    
+    window.open(newFileURL, '_blank');
+    closeModal();
+  });
+
+  contentInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+      okButton.click();
+    }
+  });
+});
+</script>
+
+{{- end }}{{/* end main */}} 
