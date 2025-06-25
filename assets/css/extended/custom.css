@@ -1,63 +1,52 @@
-/* 自定义字体样式 - 使用衬线体 */
+/*
+ * ====================================================================
+ * 1. 全局字体与排版 (Global Font and Typography)
+ * ====================================================================
+ * 该部分用于统一网站的整体字体风格，主要将默认字体替换为更适合中文阅读的
+ * 衬线字体（如宋体），并对字体渲染、行高等进行优化，以提升阅读体验。
+ */
 
-/* 全局字体设置 */
-body {
+/* 1.1. 全局字体设置 (Global Font Family) */
+/* 为网站主要元素（正文、标题、导航等）设置统一的衬线字体 */
+body, h1, h2, h3, h4, h5, h6, .post-content, .main, .nav, .sidebar {
     font-family: "SimSun", "宋体", "Times New Roman", "serif", serif !important;
 }
 
-/* 标题字体 */
-h1, h2, h3, h4, h5, h6 {
-    font-family: "SimSun", "宋体", "Times New Roman", "serif", serif !important;
-}
-
-/* 文章内容字体 */
-.post-content, .post-content p, .post-content div, .post-content span, .post-content li, .post-content blockquote {
-    font-family: "SimSun", "宋体", "Times New Roman", "serif", serif !important;
-}
-
-/* 确保所有正文文本使用宋体 */
-.main, .content, article, .post-single, .post-entry {
-    font-family: "SimSun", "宋体", "Times New Roman", "serif", serif !important;
-}
-
-/* 导航菜单字体 */
-.nav {
-    font-family: "SimSun", "宋体", "Times New Roman", "serif", serif !important;
-}
-
-/* 侧边栏字体 */
-.sidebar {
-    font-family: "SimSun", "宋体", "Times New Roman", "serif", serif !important;
-}
-
-/* 代码块保持等宽字体 */
+/* 1.2. 代码块字体 (Code Block Font) */
+/* 保持代码块使用等宽字体，以确保代码格式正确显示 */
 code, pre {
     font-family: "Consolas", "Monaco", "Courier New", monospace !important;
 }
 
-/* 优化中文字体渲染 */
+/* 1.3. 字体渲染优化 (Font Rendering Optimization) */
+/* 提升字体在不同浏览器和操作系统下的显示效果 */
 body {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* 调整行高以适应中文衬线字体 */
+/* 1.4. 行高调整 (Line Height Adjustment) */
+/* 调整全局和特定元素的行高，以适应中文衬线字体，使其更易于阅读 */
 body {
     line-height: 1.8;
 }
-
 .post-content {
     line-height: 1.9;
 }
-
-/* 标题行高调整 */
 h1 { line-height: 1.4; }
 h2 { line-height: 1.5; }
 h3 { line-height: 1.6; }
 h4, h5, h6 { line-height: 1.7; }
 
-/* --- Icon Styles --- */
+
+/*
+ * ====================================================================
+ * 2. 列表页图标样式 (List Page Icon Styles)
+ * ====================================================================
+ * 为文章列表页（如 /posts/）的标题旁添加自定义图标，并设置其样式和交互效果。
+ */
+
 .list-page-title {
   display: flex;
   justify-content: space-between;
@@ -67,11 +56,11 @@ h4, h5, h6 { line-height: 1.7; }
 .list-page-icons {
   display: flex;
   align-items: center;
-  gap: 14px; /* Space between icons */
+  gap: 14px; /* 图标之间的间距 */
 }
 
 .list-page-icons a {
-  color: var(--content); /* This is black/dark in light mode, white in dark mode */
+  color: var(--content); /* 使用主题变量，确保在深色/浅色模式下颜色正确 */
   opacity: 0.6;
   transition: opacity 0.2s ease-in-out;
 }
@@ -80,45 +69,51 @@ h4, h5, h6 { line-height: 1.7; }
   opacity: 1;
 }
 
-/* --- Modal Styles --- */
+
+/*
+ * ====================================================================
+ * 3. 模态框（弹出窗口）样式 (Modal Styles)
+ * ====================================================================
+ * 定义一个通用的模态框（例如，用于输入或确认操作的弹出窗口）的样式，
+ * 包括背景遮罩、内容区域、输入框、按钮等。
+ */
+
+/* 3.1. 模态框遮罩 (Modal Overlay) */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: transparent; /* Changed from dark to transparent */
+  background-color: transparent; /* 透明背景 */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  -webkit-backdrop-filter: blur(4px); /* Increased blur for a better effect */
-  backdrop-filter: blur(4px); /* Increased blur for a better effect */
+  -webkit-backdrop-filter: blur(4px); /* 背景模糊效果 (毛玻璃) */
+  backdrop-filter: blur(4px);
 }
 
+/* 3.2. 模态框内容区域 (Modal Content) */
 .modal-content {
-  background: var(--entry); /* Use PaperMod theme variable for card background */
-  color: var(--content); /* Use PaperMod theme variable for text color */
+  background: var(--entry); /* 使用主题变量定义背景色 */
+  color: var(--content); /* 使用主题变量定义文字颜色 */
   padding: 25px 30px;
   border-radius: var(--radius);
   width: 90%;
   max-width: 500px;
   box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-  border: 1px solid var(--border); /* Use PaperMod theme variable for border color */
-  animation: modal-fade-in 0.3s ease-out;
+  border: 1px solid var(--border);
+  animation: modal-fade-in 0.3s ease-out; /* 淡入动画 */
 }
 
+/* 3.3. 模态框淡入动画 (Modal Fade-in Animation) */
 @keyframes modal-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
+/* 3.4. 模态框内部元素 (Modal Inner Elements) */
 .modal-content h2 {
   margin-top: 0;
   color: var(--primary);
@@ -129,25 +124,8 @@ h4, h5, h6 { line-height: 1.7; }
   margin-bottom: 15px;
 }
 
-.modal-content input[type="text"] {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--border); /* Use PaperMod theme variable for border color */
-  border-radius: var(--radius);
-  background: var(--theme); /* Use PaperMod theme variable for page background */
-  color: var(--content);
-  font-family: inherit;
-  font-size: 1rem;
-  margin-bottom: 20px;
-  box-sizing: border-box;
-}
-
-.modal-content input[type="text"]:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 25%, transparent);
-}
-
+/* 3.5. 模态框输入框和文本域 (Modal Inputs & Textarea) */
+.modal-content input[type="text"],
 .modal-content textarea {
   width: 100%;
   padding: 10px;
@@ -159,15 +137,20 @@ h4, h5, h6 { line-height: 1.7; }
   font-size: 1rem;
   margin-bottom: 20px;
   box-sizing: border-box;
+}
+
+.modal-content textarea {
   resize: vertical;
 }
 
+.modal-content input[type="text"]:focus,
 .modal-content textarea:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 25%, transparent);
 }
 
+/* 3.6. 模态框按钮 (Modal Buttons) */
 .modal-buttons {
   display: flex;
   justify-content: flex-end;
@@ -199,18 +182,32 @@ h4, h5, h6 { line-height: 1.7; }
 #modal-cancel-button {
   background-color: transparent;
   color: var(--content);
-  border: 1px solid var(--border); /* Use PaperMod theme variable for border color */
+  border: 1px solid var(--border);
 }
 
 #modal-cancel-button:hover {
-  background-color: var(--border); /* Use PaperMod theme variable for border color */
+  background-color: var(--border);
 }
 
+
+/*
+ * ====================================================================
+ * 4. 水印样式 (Watermark Style)
+ * ====================================================================
+ * 默认隐藏水印。可以根据需要进行修改。
+ */
 .watermark {
     display: none;
 }
 
-/* Timeline styles for notes section */
+
+/*
+ * ====================================================================
+ * 5. 时间轴样式 (Timeline Styles for Notes Section)
+ * ====================================================================
+ * 为"碎碎念"页面设计时间轴布局，用于展示一系列按时间排序的事件或笔记。
+ */
+
 .timeline {
     position: relative;
     margin: 0 auto;
