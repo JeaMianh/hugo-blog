@@ -2,6 +2,8 @@
 date: '2023-02-09T18:18:09+08:00'
 draft: false
 title: '银杏树'
+categories:
+  - 随想
 tags: ['随笔']
 ---
 

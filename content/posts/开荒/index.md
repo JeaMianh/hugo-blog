@@ -2,6 +2,8 @@
 title: "开荒"
 date: 2025-06-08T13:50:08+08:00
 draft: false
+categories:
+  - 随想
 tags: ['随笔']
 ---
 
